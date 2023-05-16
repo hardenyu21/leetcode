@@ -87,24 +87,23 @@ another starts from the end and goes backward.
 
 class Solution3(object):
     def removeElement(self, nums, val):
-        last = len(nums) - 1
-        current = 0
-        while current <= last:
-            if nums[last] == val:
-                last -= 1
-            elif nums[current] == val:
-                nums[current] = nums[last]
-                last -= 1
+        backward = len(nums) - 1
+        forward = 0
+        while forward <= backward:
+            if nums[backward] == val:
+                backward -= 1
+            elif nums[forward] == val:
+                nums[forward] = nums[backward]
+                backward -= 1
             else:
-                current += 1
-        return current
-
+                forward += 1
+        return forward
+    
 '''
 One pointer is fast and another is slow
 
 Compared to solution3, it seems like more efficient
 
-This is inspired by: https://programmercarl.com/0027.%E7%A7%BB%E9%99%A4%E5%85%83%E7%B4%A0.html#%E6%80%9D%E8%B7%AF
 '''
 
 class Solution4(object):
