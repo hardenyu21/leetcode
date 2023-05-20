@@ -50,7 +50,7 @@ myLinkedList.get(1);              // return 3
 
 '''
 
-##Date: 5.20, still some bugs
+##Date: 5.20, still some bugs, some cases can not pass
 
 ##Singlelist node
 

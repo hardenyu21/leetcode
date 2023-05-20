@@ -49,7 +49,7 @@ class Solution(object):
         :type val: int
         :rtype: ListNode
         """
-        result = ListNode(0, next = head)
+        result = ListNode(next = head)
         current_node = result
 
         while current_node.next is not None:
