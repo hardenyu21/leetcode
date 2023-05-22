@@ -63,41 +63,44 @@ class MyLinkedList(object):
 
     def __init__(self):
         self.head = SingleListNode()   
-        self.dummy = SingleListNode(next = self.head)
+        self.size = 0
 
     def get(self, index):
         """
         :type index: int
         :rtype: int
         """
-        current_index = 0
-        current_node = self.dummy.next
-        while current_node is not None:
-            if current_index == index:
-                return current_node.val
-            else:
-                current_index += 1
-                current_node = current_node.next
-        return -1
+        if index < 0 or index >= self.size:
+            return -1
+        
+        current_node = self.head.next
+        while index:
+            current_node = current_node.next
+            index -= 1
+        return current_node.val
     
     def addAtHead(self, val):
         """
         :type val: int
         :rtype: None
         """
-        next = self.head if self.head.val is not None else None 
-        self.head = SingleListNode(val = val, next = next)
-        self.dummy = SingleListNode(next = self.head)
+        node = SingleListNode(val = val)
+        node.next = self.head.next
+        self.head.next = node
+        self.size += 1
 
     def addAtTail(self, val):
         """
         :type val: int
         :rtype: None
         """
-        current_node = self.dummy.next
+        node = SingleListNode(val = val)
+        
+        current_node = self.head
         while current_node.next is not None:
             current_node = current_node.next
-        current_node.next = SingleListNode(val = val)
+        current_node.next = node
+        self.size += 1
 
     def addAtIndex(self, index, val):
         """
@@ -105,49 +108,80 @@ class MyLinkedList(object):
         :type val: int
         :rtype: None
         """
-        current_index = 0
-        current_node = self.dummy.next
-        while current_node.next is not None:
-            if current_index == index - 1:
-                current_node.next = SingleListNode(val = val, next = current_node.next)
-                return
-            else:
-                current_index += 1
+        if index < 0:
+            self.addAtHead(val = val)
+        elif index == self.size:
+            self.addAtTail(val = val)
+        elif index > self.size:
+            pass
+        else:
+            current_node = self.head
+            while index:
                 current_node = current_node.next
-        if current_index == index - 1:
-            current_node.next = SingleListNode(val = val)
+                index -= 1
+            node = SingleListNode(val = val, next = current_node.next)
+            current_node.next = node
+            self.size += 1
+        return
 
     def deleteAtIndex(self, index):
         """
         :type index: int
         :rtype: None
         """
-        current_index = 0
-        current_node = self.dummy.next
-        if index == 0:
-            self.head = SingleListNode(val = self.head.next.val, next = self.head.next)
-            self.dummy = SingleListNode(next = self.head)
+        if index >= self.size or index < 0:
+            pass
         else:
-            while current_node.next is not None:
-                if current_index == index - 1:
-                    current_node.next = current_node.next.next
-                    break
-                else:
-                    current_index += 1
-                    current_node = current_node.next
+            current_node = self.head
+            while index:
+                current_node = current_node.next
+                index -= 1
+            current_node.next = current_node.next.next
+            self.size -= 1
+    
 
 ## Double linked list
+class DoubleListNode:
+    
+    def __init__(self, val = None, prev = None, next = None):
+        self.val = val
+        self.prev = prev
+        self.next = next
+        
 
 class MyLinkedList(object):
 
     def __init__(self):
-        pass
+        self.head = DoubleListNode()
+        self.tail = DoubleListNode()
+        self.head.next = self.tail
+        self.tail.prev = self.head
+        self.size = 0
+
+    def get_node(self, index):
+        if index < self.size // 2:
+            current_node = self.head.next
+            while index:
+                current_node = current_node.next
+                index -= 1
+        else:
+            current_node = self.tail.prev
+            index = self.size - index
+            while index:
+                current_node = current_node.prev
+                index -= 1
+        return current_node
 
     def get(self, index):
         """
         :type index: int
         :rtype: int
         """
+        if index < 0 or index >= self.size:
+            return -1
+        else:
+            node = self.get_node(index)
+            return node.val
         
 
     def addAtHead(self, val):
@@ -155,14 +189,18 @@ class MyLinkedList(object):
         :type val: int
         :rtype: None
         """
-        
+        node = DoubleListNode(val = val, next = self.head.next, prev = self.head)
+        self.head.next = node
+        self.size += 1
 
     def addAtTail(self, val):
         """
         :type val: int
         :rtype: None
         """
-        
+        node = DoubleListNode(val = val, prev = self.tail.prev, next = self.tail)
+        self.tail.prev = node
+        self.size += 1
 
     def addAtIndex(self, index, val):
         """
@@ -170,10 +208,31 @@ class MyLinkedList(object):
         :type val: int
         :rtype: None
         """
-        
+        if index < 0:
+            self.addAtHead(val)
+            self.size += 1
+        elif index == self.size:
+            self.addAtTail(val)
+            self.size += 1
+        elif index > self.size:
+            pass
+        else:
+            node = self.get_node(index)
+            added_node = DoubleListNode(val = val, prev = node.prev, next = node)
+            node.prev = added_node
+            self.size += 1
+
 
     def deleteAtIndex(self, index):
         """
         :type index: int
         :rtype: None
         """
+        if index < 0 or index >= self.size:
+            pass
+        else:
+            node = self.get_node(index)
+            prev = node.prev
+            next = node.next
+            prev.next, next.prev = next, prev
+            self.size -= 1
