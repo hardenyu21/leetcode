@@ -140,7 +140,8 @@ class MyLinkedList(object):
             self.size -= 1
     
 
-## Double linked list
+##Double linked list
+
 class DoubleListNode:
     
     def __init__(self, val = None, prev = None, next = None):
@@ -166,7 +167,7 @@ class MyLinkedList(object):
                 index -= 1
         else:
             current_node = self.tail.prev
-            index = self.size - index
+            index = self.size - index - 1
             while index:
                 current_node = current_node.prev
                 index -= 1
@@ -190,6 +191,7 @@ class MyLinkedList(object):
         :rtype: None
         """
         node = DoubleListNode(val = val, next = self.head.next, prev = self.head)
+        self.head.next.prev = node
         self.head.next = node
         self.size += 1
 
@@ -199,6 +201,7 @@ class MyLinkedList(object):
         :rtype: None
         """
         node = DoubleListNode(val = val, prev = self.tail.prev, next = self.tail)
+        self.tail.prev.next = node
         self.tail.prev = node
         self.size += 1
 
@@ -210,15 +213,14 @@ class MyLinkedList(object):
         """
         if index < 0:
             self.addAtHead(val)
-            self.size += 1
         elif index == self.size:
             self.addAtTail(val)
-            self.size += 1
         elif index > self.size:
             pass
         else:
             node = self.get_node(index)
             added_node = DoubleListNode(val = val, prev = node.prev, next = node)
+            node.prev.next = added_node
             node.prev = added_node
             self.size += 1
 
@@ -232,7 +234,10 @@ class MyLinkedList(object):
             pass
         else:
             node = self.get_node(index)
-            prev = node.prev
-            next = node.next
+            print(node.val)
+            prev = node.prev  
+            print(prev.val)
+            next = node.next  
+            print(next.val) 
             prev.next, next.prev = next, prev
             self.size -= 1
