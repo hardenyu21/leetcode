@@ -1,0 +1,89 @@
+'''
+1.
+
+Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+
+You may assume that each input would have exactly one solution, and you may not use the same element twice.
+
+You can return the answer in any order.
+
+Example 1:
+
+Input: nums = [2,7,11,15], target = 9
+Output: [0,1]
+Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
+
+Example 2:
+
+Input: nums = [3,2,4], target = 6
+Output: [1,2]
+
+Example 3:
+
+Input: nums = [3,3], target = 6
+Output: [0,1]
+
+Constraints:
+
+2 <= nums.length <= 104
+-109 <= nums[i] <= 109
+-109 <= target <= 109
+Only one valid answer exists.
+
+Follow-up: Can you come up with an algorithm that is less than O(n^2) time complexity?
+'''
+
+## O(n^2)
+class Solution1(object):
+    def twoSum(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+        for i in range(len(nums) - 1):
+            for j in range(i + 1, len(nums)):
+                if nums[i] + nums[j] == target:
+                    return [i, j]
+
+## O(n)
+class Solution2(object):
+    def twoSum(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+        map = {}
+        for idx, num in enumerate(nums):
+            if num in map:
+                map[num].append(idx)
+            else:
+                map[num] = [idx]
+
+        for num in nums:
+            try:
+                if num == target - num:
+                    return [map[num][0], map[num][1]]
+                else:
+                    return [map[num][0], map[target - num][0]]
+            except:
+                pass
+
+## maybe can be improved?
+## In python 2 the time to excute if a in map.keys() and if a in map is not the same,
+## since in python 2 map.keys() returns a list not view.
+class Solution3(object):
+    def twoSum(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+        map = {}
+        for idx, num in enumerate(nums):
+            diff = target - num
+            if diff in map:
+                return [idx, map[diff]]
+            map[num] = idx
+
