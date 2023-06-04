@@ -48,9 +48,10 @@ class Solution(object):
                 fast -= 1
             else:
                 slow = fast
-                while s[fast - 1] != ' ':
+                while s[fast - 1] != ' ' and fast > 0:
                     fast -= 1
-                result += s[fast : slow + 1] + ' '        
+                result += s[fast : slow + 1] + ' '
+                fast -= 1
         return result.strip(' ')
 
 
