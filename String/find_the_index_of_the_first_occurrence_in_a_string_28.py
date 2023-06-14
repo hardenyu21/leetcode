@@ -43,21 +43,20 @@ class Solution1(object):
 
 ##KMP
 class Solution2(object):
-    def getNext(self, next, s):
+    def build_next(self, s):
         j = 0
-        next[0] = 0
+        next = [0 for _ in range(len(s))]
         for i in range(1, len(s)):
             while j > 0 and s[i] != s[j]:
                 j = next[j - 1]
             if s[i] == s[j]:
                 j += 1
             next[i] = j
-    
+        return next
     def strStr(self, haystack, needle):
         if len(needle) == 0:
             return 0
-        next = [0] * len(needle)
-        self.getNext(next, needle)
+        next = self.build_next(needle)
         j = 0
         for i in range(len(haystack)):
             while j > 0 and haystack[i] != needle[j]:
