@@ -86,35 +86,33 @@ class MyStack1:
         return len(self.queue_in) == 0
     
 ## Using only one queue
+    
 class MyStack2:
 
     def __init__(self):
 
         self.queue = deque()
 
-    def push(self, x: int) -> None:
+    def push(self, x):
 
         self.queue.append(x)
 
-
-    def pop(self) -> int:
+    def pop(self):
 
         if self.empty():
-            return None
-
+            return
         for _ in range(len(self.queue) - 1):
-            self.queue.append(self.queue.popleft())
-        
+            self.push(self.queue.popleft())
         return self.queue.popleft()
 
-    def top(self) -> int:
-
-        if self.empty():
-            return None
+    def top(self):
         
-        return self.queue[-1]
+        if self.empty():
+            return 
+        ans = self.pop()
+        self.push(ans)
+        return ans
+    
+    def empty(self):
 
-
-    def empty(self) -> bool:
-
-        return len(self.queue) == 0
+        return not self.queue

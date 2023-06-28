@@ -71,7 +71,7 @@ class MyQueue:
         if self.stack_out:
             return self.stack_out.pop()
         else:
-            for _ in range(len(self.stack_in)):
+            while self.stack_in:
                 self.stack_out.append(self.stack_in.pop())
             return self.stack_out.pop()
 
@@ -86,4 +86,3 @@ class MyQueue:
     def empty(self) -> bool:
 
         return not (self.stack_in or self.stack_out)
-        
