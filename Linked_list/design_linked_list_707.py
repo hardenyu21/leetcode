@@ -234,10 +234,7 @@ class MyLinkedList(object):
             pass
         else:
             node = self.get_node(index)
-            print(node.val)
             prev = node.prev  
-            print(prev.val)
             next = node.next  
-            print(next.val) 
             prev.next, next.prev = next, prev
             self.size -= 1

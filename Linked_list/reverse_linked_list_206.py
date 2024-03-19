@@ -79,7 +79,7 @@ class Solution3(object):
         return self.reverse(head, None)
     
     def reverse(self, cur, pre):
-        if cur == None:
+        if cur is None:
             return pre
         temp = cur.next
         cur.next = pre
